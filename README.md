@@ -1,89 +1,132 @@
-# Chokepoint — Critical Materials Risk Dashboard
+# Chokepoint
 
-A real-time dashboard for monitoring supply chain risks in critical materials (rare earths, battery metals, semiconductors).
+**Critical Materials Risk Dashboard**
+
+A real-time dashboard for monitoring supply chain risks in critical materials — rare earths, battery metals, and semiconductors.
+
+🔗 **Live Demo**: [realhariharan.live/projects/chokepoint](https://realhariharan.live/projects/chokepoint)
+
+---
+
+## Features
+
+- **8 Critical Materials** — Gallium, Neodymium, Cobalt, Lithium, Tungsten, Silicon, Copper, Iron
+- **Supply Concentration** — Visualize which countries control each material
+- **Industry Impact** — See dependency scores across Semiconductors, EVs, Defense, Renewables
+- **Choke Point Alerts** — Active risk factors like export controls, refining bottlenecks
+- **Risk Scoring** — Calculated exposure rankings across all materials
+- **Signal Timeline** — Latest news scraped via Firecrawl API
+
+---
 
 ## Tech Stack
 
-- **Frontend**: React + TypeScript + Vite
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Backend**: Supabase (PostgreSQL + Edge Functions)
-- **Data**: Firecrawl API for news scraping
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18 + TypeScript |
+| Build | Vite |
+| Styling | Tailwind CSS + shadcn/ui |
+| Backend | Supabase (PostgreSQL) |
+| Edge Functions | Deno (Supabase Functions) |
+| Data Scraping | Firecrawl API |
+| Hosting | Vercel |
 
-## Quick Start
+---
 
-### 1. Install Dependencies
+## Project Structure
+
+```
+├── src/
+│   ├── components/
+│   │   ├── dashboard/       # Dashboard components
+│   │   └── ui/              # shadcn/ui components
+│   ├── hooks/               # React Query hooks
+│   ├── integrations/        # Supabase client
+│   ├── lib/                 # Utilities & API
+│   ├── pages/               # Route pages
+│   └── types/               # TypeScript types
+├── supabase/
+│   ├── functions/           # Edge functions
+│   └── migrations/          # Database schema
+└── public/                  # Static assets
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- Supabase account
+- Firecrawl API key (optional, for news scraping)
+
+### Installation
 
 ```bash
+# Clone the repo
+git clone https://github.com/yourusername/chokepoint.git
+cd chokepoint
+
+# Install dependencies
 npm install
-```
 
-### 2. Set Up Supabase
-
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Copy your Project URL and Anon Key from Settings → API
-
-### 3. Configure Environment
-
-```bash
+# Set up environment variables
 cp .env.example .env
-```
+# Edit .env with your Supabase credentials
 
-Edit `.env` with your Supabase credentials:
-```
-VITE_SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
-```
-
-### 4. Set Up Database
-
-Run the SQL from `LIBERATION.md` (Step 3) in your Supabase SQL Editor, then seed with `SEED.md`.
-
-### 5. Deploy Edge Functions
-
-```bash
-npm install -g supabase
-supabase login
-supabase link --project-ref YOUR_PROJECT_ID
-supabase secrets set FIRECRAWL_API_KEY=your_firecrawl_key
-supabase functions deploy firecrawl-search
-supabase functions deploy refresh-signals
-```
-
-### 6. Run Locally
-
-```bash
+# Run development server
 npm run dev
 ```
 
-Visit http://localhost:8080
+### Environment Variables
+
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
+```
+
+---
+
+## Database Setup
+
+Run the migration SQL in your Supabase SQL Editor (found in `supabase/migrations/`).
+
+---
 
 ## Deployment
 
 ### Vercel
-```bash
-npm install -g vercel
-vercel
-```
 
-### Netlify
-```bash
-npm install -g netlify-cli
-netlify deploy --prod
-```
-
-### Self-Hosted
 ```bash
 npm run build
-# Serve the dist folder with any static server
+vercel --prod
 ```
 
-## Documentation
+### Edge Functions
 
-- [LIBERATION.md](LIBERATION.md) — Full self-hosting guide
-- [SEED.md](SEED.md) — Database seed data
+```bash
+supabase login
+supabase link --project-ref YOUR_PROJECT_ID
+supabase secrets set FIRECRAWL_API_KEY=your_key
+supabase functions deploy firecrawl-search
+supabase functions deploy refresh-signals
+```
+
+---
 
 ## Data Sources
 
 - USGS Mineral Commodity Summaries
 - Reuters, Mining.com
 - MOFCOM (China Ministry of Commerce)
+
+---
+
+## License
+
+MIT
+
+---
+
+Built by [Hari Haran](https://realhariharan.live)
